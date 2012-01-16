@@ -56,6 +56,7 @@
                      nbot
                      (secs (first (drop ntop durations)))))
     (.shutdown pool)
+    (await log/logger)
     (shutdown-agents)))
 
 
