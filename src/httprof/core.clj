@@ -57,15 +57,3 @@
     (await log/logger)
     (shutdown-agents)))
 
-
-(comment
-  (def urls ["http://www.google.com"
-             "http://www.cnn.com"
-             "http://www.yahoo.com"
-             "http://www.nytimes.com"])
-
-  (map (comp :duration deref)
-       (for [u urls]
-         (future (timed #(http/get u)))))
-
-  )
