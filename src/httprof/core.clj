@@ -49,7 +49,7 @@
     (log/log "connections:" nconns)
     (log/log "requests:" nreqs)
     (log/log "total secs:" total-secs)
-    (log/log "req/secs:" (format "%.3f" (/ total-secs nreqs)))
+    (log/log "req/secs:" (format "%.3f" (/ nreqs total-secs)))
     (log/log "min secs:" (secs (first durations)))
     (log/log "max secs:" (secs (last durations)))
     (log/log (format "max of bottom 5%% (%d): %.3f"
