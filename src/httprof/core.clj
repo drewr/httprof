@@ -37,13 +37,15 @@
   (let [nconns (BigInteger. nconns)
         pool (Executors/newFixedThreadPool nconns)
         parser (parse-fn "default")
-        reqseq (->> (io/reader reqs)
-                    line-seq
-                    (map parser)
-                    (map #(assoc % :url url)))
-        res (timed (fn [] (go reqseq pool)))
+        res (timed
+             (fn []
+               (go (->> (io/reader reqs)
+                        line-seq
+                        (map parser)
+                        (map #(assoc % :url url)))
+                   pool)))
         total-secs (secs (:duration res))
-        nreqs (count reqseq)
+        nreqs (count (:result res))
         [ntop nbot] (tsplit nreqs 0.05)
         durations (->> res :result (map :duration) sort)]
     (log/log "conns" nconns

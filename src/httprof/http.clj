@@ -15,4 +15,4 @@
   (let [opts (merge {:throw-exceptions false} opts)
         opts (merge opts {:method (-> opts :method .toLowerCase keyword)})
         url (str url action)]
-    (http/request (merge opts {:url url}))))
+    (dissoc (http/request (merge opts {:url url})) :body)))
