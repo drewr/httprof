@@ -48,11 +48,13 @@
         durations (->> res :result (map :duration) sort)]
     (log/log "conns" nconns
              "reqs" nreqs
-             "secs" total-secs
-             "rate" (format "%.3f" (/ nreqs total-secs))
-             "min" (secs (first durations))
-             "max" (secs (last durations))
-             (format "5%%(%d) %.3f" nbot (secs (first (drop ntop durations)))))
+             (format "secs %.3f" total-secs)
+             (format "rate %.3f" (/ nreqs total-secs))
+             (format "min %.3f" (secs (first durations)))
+             (format "max %.3f" (secs (last durations)))
+             (format "95%%rate %.3f"
+                     (float (/ ntop (reduce + (take ntop durations)))))
+             (format "5%%min %.3f" (secs (first (drop ntop durations)))))
     (.shutdown pool)
     (await log/logger)
     (shutdown-agents)))
