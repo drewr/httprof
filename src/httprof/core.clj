@@ -17,24 +17,44 @@
       (.execute pool
                 (fn []
                   (let [x (timed #(http/execute r))]
-                    (log/log (format "%s %s %s" (:action r)
-                                     (:status (:result x))
-                                     (:duration x)))
+                    #_(log/log (format "%s %s %s" (:action r)
+                                       (:status (:result x))
+                                       (:duration x)))
                     (swap! results conj x))
                   (.countDown latch))))
     (.await latch)
     @results))
 
-(defn -main [reqs url nconns & {:as opts}]
+(defn secs [millis]
+  (float (/ millis 10e2)))
+
+(defn tsplit [n threshold]
+  (let [x (* n threshold)]
+    [(-> (- n x) Math/floor int)
+     (-> x Math/ceil int)]))
+
+(defn -main [reqs url nconns]
   (let [nconns (BigInteger. nconns)
         pool (Executors/newFixedThreadPool nconns)
-        parser (parse-fn (:parser opts "default"))
+        parser (parse-fn "default")
         reqseq (->> (io/reader reqs)
                     line-seq
                     (map parser)
                     (map #(assoc % :url url)))
-        res (timed (fn [] (go reqseq pool)))]
-    (log/log "** total:" (:duration res))
+        res (timed (fn [] (go reqseq pool)))
+        total-secs (secs (:duration res))
+        nreqs (count reqseq)
+        [ntop nbot] (tsplit nreqs 0.05)
+        durations (->> res :result (map :duration) sort)]
+    (log/log "connections:" nconns)
+    (log/log "requests:" nreqs)
+    (log/log "total secs:" total-secs)
+    (log/log "req/secs:" (format "%.3f" (/ total-secs nreqs)))
+    (log/log "min secs:" (secs (first durations)))
+    (log/log "max secs:" (secs (last durations)))
+    (log/log (format "max of bottom 5%% (%d): %.3f"
+                     nbot
+                     (secs (first (drop ntop durations)))))
     (.shutdown pool)
     (shutdown-agents)))
 
