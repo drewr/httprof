@@ -46,15 +46,13 @@
         nreqs (count reqseq)
         [ntop nbot] (tsplit nreqs 0.05)
         durations (->> res :result (map :duration) sort)]
-    (log/log "connections:" nconns)
-    (log/log "requests:" nreqs)
-    (log/log "total secs:" total-secs)
-    (log/log "req/secs:" (format "%.3f" (/ nreqs total-secs)))
-    (log/log "min secs:" (secs (first durations)))
-    (log/log "max secs:" (secs (last durations)))
-    (log/log (format "max of bottom 5%% (%d): %.3f"
-                     nbot
-                     (secs (first (drop ntop durations)))))
+    (log/log "conns" nconns
+             "reqs" nreqs
+             "secs" total-secs
+             "rate" (format "%.3f" (/ nreqs total-secs))
+             "min" (secs (first durations))
+             "max" (secs (last durations))
+             (format "5%%(%d) %.3f" nbot (secs (first (drop ntop durations)))))
     (.shutdown pool)
     (await log/logger)
     (shutdown-agents)))
