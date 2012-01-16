@@ -53,7 +53,7 @@
              (format "min %.3f" (secs (first durations)))
              (format "max %.3f" (secs (last durations)))
              (format "95%%rate %.3f"
-                     (float (/ ntop (reduce + (take ntop durations)))))
+                     (/ ntop (secs (reduce + (take ntop durations)))))
              (format "5%%min %.3f" (secs (first (drop ntop durations)))))
     (.shutdown pool)
     (await log/logger)
