@@ -45,6 +45,7 @@
                         (map #(assoc % :url url)))
                    pool)))
         total-secs (secs (:duration res))
+        httpsumm (http/summary-string (->> res :result (map :result)))
         nreqs (count (:result res))
         [ntop nbot] (tsplit nreqs 0.05)
         durations (->> res :result (map :duration) sort)]
@@ -56,7 +57,8 @@
              (format "avgrate %.3f" (/ ntop (secs (reduce + durations))))
              (format "min %.3f" (secs (first durations)))
              (format "max %.3f" (secs (last durations)))
-             (format "5%%min %.3f" (secs (first (drop ntop durations)))))
+             (format "5%%min %.3f" (secs (first (drop ntop durations))))
+             httpsumm)
     (.shutdown pool)
     (await log/logger)
     (shutdown-agents)))
