@@ -12,3 +12,10 @@
      :end end
      :duration (- end start)}))
 
+(defn timestamp []
+  (let [fmt (java.text.SimpleDateFormat. "yyyy-MM-dd'T'HH:mm:ss.SSSZ")]
+    (.format fmt (java.util.Date.))))
+
+(defn hmsstamp []
+  (let [fmt (java.text.SimpleDateFormat. "HH:mm:ss.SSS")]
+    (.format fmt (java.util.Date.))))

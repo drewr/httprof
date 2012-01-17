@@ -1,6 +1,6 @@
 (ns httprof.core
   (:gen-class)
-  (:use [httprof.time :only [timed]])
+  (:use [httprof.time :only [hmsstamp timed]])
   (:require [clojure.java.io :as io]
             [httprof.http :as http]
             [httprof.log :as log]
@@ -48,7 +48,8 @@
         nreqs (count (:result res))
         [ntop nbot] (tsplit nreqs 0.05)
         durations (->> res :result (map :duration) sort)]
-    (log/log "conns" nconns
+    (log/log (hmsstamp)
+             "conns" nconns
              "reqs" nreqs
              (format "secs %.3f" total-secs)
              (format "rate %.3f" (/ nreqs total-secs))
