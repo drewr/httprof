@@ -53,6 +53,7 @@
              "reqs" nreqs
              (format "secs %.3f" total-secs)
              (format "rate %.3f" (/ nreqs total-secs))
+             (format "avgrate %.3f" (/ ntop (secs (reduce + durations))))
              (format "min %.3f" (secs (first durations)))
              (format "max %.3f" (secs (last durations)))
              (format "5%%min %.3f" (secs (first (drop ntop durations)))))
