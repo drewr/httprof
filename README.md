@@ -28,5 +28,5 @@ Copyright (C) 2012 Andrew A. Raines
 
 Distributed under the Eclipse Public License, the same as Clojure.
 
-Thanks to [Sonian](http://www.sonian.com) for encouraging the
-development of open software.
+Thanks to [Sonian](http://www.sonian.com) for supporting open
+software.
