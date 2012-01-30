@@ -12,7 +12,7 @@
 
 (defn go [reqseq pool]
   (let [results (atom [])
-        latch (java.util.concurrent.CountDownLatch. (count reqseq))]
+        c (atom 0)]
     (doseq [r reqseq]
       (.execute pool
                 (fn []
@@ -21,8 +21,9 @@
                                        (:status (:result x))
                                        (:duration x)))
                     (swap! results conj x))
-                  (.countDown latch))))
-    (.await latch)
+                  (swap! c inc))))
+    (.shutdown pool)
+    (while (not (.isTerminated pool)) (Thread/sleep 100))
     @results))
 
 (defn secs [millis]
