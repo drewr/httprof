@@ -6,7 +6,7 @@ Command-line tool for replaying requests to an HTTP service.
 
 Build an uberjar.
 
-    % lein deps && lein jar
+    % lein deps && lein uberjar
 
 Input files are single line per request.  The default parser expects `METHOD URI BODY`, like this:
 
