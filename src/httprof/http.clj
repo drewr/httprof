@@ -19,9 +19,10 @@
 
 (defn execute [{:keys [url method action] :as opts}]
   (let [opts (merge {:throw-exceptions false} opts)
-        opts (merge opts {:method (-> opts :method .toLowerCase keyword)})
-        url (str url action)]
-    (dissoc (http/request (merge opts {:url url})) :body)))
+        opts (update-in opts [:method] #(-> % name .toLowerCase keyword))
+        url (str url action)
+        opts (merge opts {:url url})]
+    (dissoc (http/request opts) :body)))
 
 (defn norm-status [status]
   (let [n (-> status (/ 100) Math/floor (* 100) int str)]

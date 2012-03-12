@@ -6,14 +6,14 @@ Command-line tool for replaying requests to an HTTP service.
 
 Build an uberjar.
 
-    % lein deps && lein uberjar
+    % lein uberjar
 
-Input files are single line per request.  The default parser expects `METHOD URI BODY`, like this:
+Input files are single line per request.  The default parser expects `ORDTOK METHOD URI BODY`, like this:
 
     % wc -l enron.requests 
          500 enron.requests
     % head -1 enron.requests
-    POST /enron/_search {"from":0,"size":10,"sort":["_score"],"query":{"query_string":{"default_field":"body","query":"type:message"}}}
+    0 POST /enron/_search {"from":0,"size":10,"sort":["_score"],"query":{"query_string":{"default_field":"body","query":"type:message"}}}
 
 Run file through connection iterations.  Example using ElasticSearch:
 
