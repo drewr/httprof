@@ -7,4 +7,4 @@
 /checkouts
 /.lein-deps-sum
 /tmp
-
+/target
