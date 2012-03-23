@@ -16,7 +16,13 @@
     (doseq [r reqseq]
       (.execute pool
                 (fn []
-                  (let [x (timed #(http/execute r))]
+                  (let [x (try
+                            (timed #(http/execute r))
+                            (catch Exception e
+                              (.println *err* (with-out-str
+                                                (.printStackTrace e)))
+                              (.println *err* (str r))
+                              {:result {:status 900}}))]
                     #_(log/log (format "%s %s %s" (:action r)
                                        (:status (:result x))
                                        (:duration x)))
