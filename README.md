@@ -4,10 +4,6 @@ Command-line tool for replaying requests to an HTTP service.
 
 ## Usage
 
-Build an uberjar.
-
-    % lein uberjar
-
 Input files are single line per request.  The default parser expects `ORDTOK METHOD URI BODY`, like this:
 
     % wc -l enron.requests 
