@@ -4,6 +4,8 @@ Command-line tool for replaying requests to an HTTP service.
 
 ## Usage
 
+### Request file
+
 Input files are single line per request.  The default parser expects `ORDTOK METHOD URI BODY`, like this:
 
     % wc -l enron.requests 
@@ -11,6 +13,14 @@ Input files are single line per request.  The default parser expects `ORDTOK MET
     % head -1 enron.requests
     0 POST /enron/_search {"from":0,"size":10,"sort":["_score"],"query":{"query_string":{"default_field":"body","query":"type:message"}}}
     1 POST /enron/_search {"from":0,"size":10,"sort":["_score"],"query":{"query_string":{"default_field":"body","query":"type:message"}}}
+
+### Alternate parser
+
+This isn't enabled from the command line yet, but you can supply a
+custom parser in `httprof.core/run-set` for your request format.  Look
+at `httprof/parser/default.clj` for an example.
+
+### Run
 
 Run file through connection iterations.  Example using ElasticSearch:
 
