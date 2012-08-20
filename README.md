@@ -24,7 +24,7 @@ at `httprof/parser/default.clj` for an example.
 
 Run file through connection iterations.  Example using ElasticSearch:
 
-    % lein run enron.requests http://localhost:9200 5 10 20
+    % java -jar httprof.jar enron.requests http://localhost:9200 5 10 20
     15:47:38.676 conns 5 reqs 500 secs 6.699 rate 74.638 avgrate 15.369 min 0.013 max 0.340 5%min 0.178 1xx 0 2xx 500 3xx 0 4xx 0 5xx 0
     15:47:43.219 conns 10 reqs 500 secs 4.497 rate 111.185 avgrate 11.004 min 0.012 max 0.334 5%min 0.242 1xx 0 2xx 500 3xx 0 4xx 0 5xx 0
     15:47:48.002 conns 20 reqs 500 secs 4.748 rate 105.307 avgrate 5.354 min 0.011 max 0.694 5%min 0.434 1xx 0 2xx 500 3xx 0 4xx 0 5xx 0
