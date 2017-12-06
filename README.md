@@ -26,7 +26,7 @@ at `httprof/parser/default.clj` for an example.
 
 ### Run
 
-Run file through connection iterations.  Example using ElasticSearch:
+Run file through connection iterations.  Example using Elasticsearch:
 
     % java -jar httprof.jar enron.requests http://localhost:9200 5 10 20
     15:47:38.676 conns 5 reqs 500 secs 6.699 rate 74.638 avgrate 15.369 min 0.013 max 0.340 5%min 0.178 1xx 0 2xx 500 3xx 0 4xx 0 5xx 0
